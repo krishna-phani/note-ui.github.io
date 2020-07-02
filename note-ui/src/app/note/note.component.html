@@ -1,0 +1,85 @@
+<div style="height:100vh">
+    <mat-toolbar color="red" class="row">
+
+        <div *ngIf="!grid" class="col-sm-3 desktop" (click)="expandClose()">
+            <button mat-icon-button>
+                <mat-icon>menu</mat-icon> &nbsp; Note Titles
+                <mat-icon *ngIf="!expandingCondition" class="arrow">keyboard_arrow_up</mat-icon>
+                <mat-icon *ngIf="expandingCondition" class="arrow">keyboard_arrow_down</mat-icon>
+            </button>
+        </div>
+
+        <div class="col-lg-9 col-md-9 col-sm-9 row" style="width: 100%;">
+            <button *ngIf="!grid" (click)="gridview()" mat-icon-button class="example-icon col-md-1 col-lg-1"
+                aria-label="Example icon-button with share icon">
+                <mat-icon>view_comfy</mat-icon>
+            </button>
+            <button *ngIf="grid" (click)="listview()" mat-icon-button class="example-icon col-md-1 col-lg-1"
+                aria-label="Example icon-button with share icon">
+                <mat-icon>list</mat-icon>
+            </button>
+
+            <button (click)="savenote()" mat-icon-button class="example-icon col-md-1 col-lg-1"
+                aria-label="Example icon-button with share icon">
+                <mat-icon>library_add_check</mat-icon>
+            </button>
+            <button (click)="addnote()" mat-icon-button
+                class="example-icon favorite-icon col-xs-1 col-sm-1 col-md-1 col-lg-1 desktop"
+                aria-label="Example icon-button with heart icon">
+                <mat-icon>add_to_queue</mat-icon>
+            </button>
+            <button (click)="deletenote()" mat-icon-button class="example-icon col-md-1 col-lg-1"
+                aria-label="Example icon-button with share icon">
+                <mat-icon>delete</mat-icon>
+            </button>
+
+            <button (click)="addTag()" mat-icon-button class="example-icon col-md-1 col-lg-1"
+                aria-label="Example icon-button with share icon">
+                <mat-icon>local_offer</mat-icon>
+            </button>
+
+            <button (click)="searchcondition()" mat-icon-button class="example-icon col-md-1 col-lg-1"
+                aria-label="Example icon-button with share icon">
+                <mat-icon>search</mat-icon>
+            </button>
+
+            <input matInput *ngIf="searchstring" style="width: 30%;" (ngModelChange)="search($event)"
+                [(ngModel)]="searchtext" placeholder="">
+
+
+        </div>
+    </mat-toolbar>
+    <div *ngIf="!grid" class="row" style="width: 100%;margin:0;">
+        <div class="{{expandClass}} desktop desktopMenu">
+            <mat-expansion-panel [expanded]="expand">
+                <div *ngIf="newNote" class="marginset" style="max-height: 200px;">
+                    <nav *ngIf="notepad.trim()==''" class="marginset">New Note</nav>
+                    <nav *ngIf="notepad.trim()!=''" class="marginset notetextwraping">{{notepad}}</nav>
+                    <small class="wraptime"> {{currentTime | date:'medium'}} &nbsp; {{tag}}</small>
+                </div>
+                <div (click)="slectedTitle(i)" style="max-height: 200px;" *ngFor="let list of noteTitles ; let i=index"
+                    class="marginset">
+                    <nav class="marginset">{{list.content}}</nav>
+                    <nav class="marginset notetextwraping" *ngIf="list.content.trim()==''"> Empty Note</nav>
+                    <small class="wraptime"> {{list.time | date:'medium'}} &nbsp; {{list.tag}}</small>
+                </div>
+            </mat-expansion-panel>
+        </div>
+        <textarea (click)="areaselected()" class="{{notepadclass}}" [(ngModel)]="notepad" name="notepad"
+            placeholder="Add new note" id="notepad"></textarea>
+    </div>
+
+
+
+    <div *ngIf="grid" class="row" style="height:auto;width: 100%;margin-left:0;">
+        <div (click)="slectedTitle(i)" *ngFor="let list of noteTitles ; let i=index"
+            class="marginsetGrid col-md-2 col-lg-2 col-sm-3 col-xs-3">
+            <nav *ngIf="selectedTitle!=i" class="marginsetGrid notetextwraping" style="height: 50%;">{{list.content}}
+            </nav>
+            <small class="wraptime"> {{list.time | date:'medium'}} &nbsp; {{list.tag}}</small>
+        </div>
+    </div>
+
+
+
+</div>
